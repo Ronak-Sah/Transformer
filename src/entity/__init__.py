@@ -11,3 +11,13 @@ class DataIngestionConfig:
     source_url :str
     local_data_file :Path
     unzip_dir :Path
+
+
+# Configuration for data tranformation
+
+@dataclass(frozen=True)
+class TokenizationTrainerConfig:
+    root_dir : Path
+    data_path : str
+    tokenizer_path : str
+

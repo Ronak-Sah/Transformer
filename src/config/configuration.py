@@ -2,6 +2,7 @@
 
 
 from src.entity import DataIngestionConfig
+from src.entity import TokenizationTrainerConfig
 
 from src.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from src.utils.common import read_yaml,create_directories
@@ -28,4 +29,19 @@ class ConfigurationManager:
         )
 
         return data_ingestion_config
+    
+    # Attribute for data transformation
+    def get_tokenization_trainer(self) -> TokenizationTrainerConfig:
+        config = self.config.tokenization_trainer                 # Extracts only the data_ingestion part of config.yaml.
+
+        create_directories([config.root_dir])               # Create data_ingestion.root directory
+
+        tokenization_trainer_config = TokenizationTrainerConfig(
+            root_dir=config.root_dir,
+            data_path=config.data_path,
+            tokenizer_path=config.tokenizer_path,
+        )
+
+        return tokenization_trainer_config
+    
     
