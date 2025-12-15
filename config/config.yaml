@@ -7,13 +7,13 @@ data_ingestion:
   unzip_dir: artifacts/data_ingestion
 
 tokenization_trainer:
-  root_dir : artifacts/data_transformation
+  root_dir : artifacts/tokenization_trainer
   data_path : "artifacts/data_ingestion/translation/train.csv"
-  tokenizer_path : "artifacts/data_transformation/tokenizer"
+  tokenizer_path : "artifacts/tokenization_trainer/tokenizer"
 
 
 model_trainer:
   root_dir : artifacts/model_trainer
   data_path : "artifacts/data_ingestion/translation/train.csv"
-  model_name : artifacts/model_trainer/model
+  tokenizer_path : "artifacts/tokenization_trainer/tokenizer"
    

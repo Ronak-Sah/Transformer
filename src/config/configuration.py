@@ -3,6 +3,8 @@
 
 from src.entity import DataIngestionConfig
 from src.entity import TokenizationTrainerConfig
+from src.entity import ModelTrainerConfig
+
 
 from src.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from src.utils.common import read_yaml,create_directories
@@ -43,5 +45,26 @@ class ConfigurationManager:
         )
 
         return tokenization_trainer_config
+    
+
+    def get_model_trainer(self) -> ModelTrainerConfig:
+        config = self.config.model_trainer                 # Extracts only the data_ingestion part of config.yaml.
+        params = self.params.model_trainer
+        create_directories([config.root_dir])               # Create data_ingestion.root directory
+
+        model_trainer_config = ModelTrainerConfig(
+            root_dir=config.root_dir,
+            data_path=config.data_path,
+            tokenizer_path=config.tokenizer_path,
+            epochs= params.epochs,
+            emb_dim= params.emb_dim,
+            ffn_hidden= params.ffn_hidden,
+            num_heads= params.num_heads,
+            drop_prob= params.drop_prob,
+            num_layers= params.num_layers,
+            max_sequence_length= params.max_sequence_length
+        )
+
+        return model_trainer_config
     
     

@@ -13,11 +13,25 @@ class DataIngestionConfig:
     unzip_dir :Path
 
 
-# Configuration for data tranformation
+
 
 @dataclass(frozen=True)
 class TokenizationTrainerConfig:
     root_dir : Path
     data_path : str
     tokenizer_path : str
+
+
+@dataclass(frozen=True)
+class ModelTrainerConfig:
+    root_dir : Path
+    data_path : str
+    tokenizer_path : str
+    epochs: 1
+    emb_dim: int
+    ffn_hidden: int
+    num_heads: int
+    drop_prob: float
+    num_layers: int
+    max_sequence_length : int
 

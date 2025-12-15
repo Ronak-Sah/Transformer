@@ -8,10 +8,8 @@ class Tokenization_Trainer:
     def __init__(self,config: TokenizationTrainerConfig):
 
         self.special_tokens = {
-        "<|endoftext|>": 1001,
-        "<|startoftext|>": 1002,
-        "[SPECIAL1]": 1003,
-        "[SPECIAL2]": 1004,
+        "<start>": 1,
+        "<end>": 2
         }
         self.config=config
         self.english_tokenizer = BPETokenizer(special_tokens=self.special_tokens)
@@ -30,8 +28,8 @@ class Tokenization_Trainer:
 
         os.makedirs(self.config.tokenizer_path, exist_ok=True)
 
-        hin_path = os.path.join(self.config.tokenizer_path, "hin.json")
-        eng_path = os.path.join(self.config.tokenizer_path, "eng.json")
+        hin_path = os.path.join(self.config.tokenizer_path, "hin")
+        eng_path = os.path.join(self.config.tokenizer_path, "eng")
 
         self.hindi_tokenizer.save(hin_path)
         self.english_tokenizer.save(eng_path)
