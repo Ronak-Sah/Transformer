@@ -34,4 +34,5 @@ class ModelTrainerConfig:
     drop_prob: float
     num_layers: int
     max_sequence_length : int
+    batch_size : int
 

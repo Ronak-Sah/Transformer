@@ -16,11 +16,10 @@ class Eng_Sentence_Embedding(nn.Module):
 
     def __init__(self, max_sequence_length, d_model):
         super().__init__()
-        max_seq_len = 200 
         self.vocab_size = len(eng_tokenizer.vocab)
         self.max_sequence_length = max_sequence_length
         self.embedding = nn.Embedding(self.vocab_size, d_model)
-        self.position_encoder = PositionalEncoding(d_model, max_seq_len)
+        self.position_encoder = PositionalEncoding(d_model, self.max_sequence_length)
         self.dropout = nn.Dropout(p=0.1)
 
 
@@ -36,11 +35,11 @@ class Eng_Sentence_Embedding(nn.Module):
         pos = self.position_encoder()[:, :seq_len, :]  # [1, S, D]
         pos = pos.expand(x.size(0), -1, -1).to(x.device)
 
-        print("x:", x.shape)
-        print("pos:", pos.shape)
+        # print("x:", x.shape)
+        # print("pos:", pos.shape)
 
-        if seq_len > self.max_sequence_length:
-            raise ValueError(f"Sequence length {seq_len} exceeds max_sequence_length {self.max_sequence_length}")
+        # if seq_len > self.max_sequence_length:
+        #     raise ValueError(f"Sequence length {seq_len} exceeds max_sequence_length {self.max_sequence_length}")
 
         x = self.dropout(x + pos)
         return x
@@ -69,8 +68,10 @@ class Hin_Sentence_Embedding(nn.Module):
         pos = self.position_encoder()[:, :seq_len, :]  # [1, S, D]
         pos = pos.expand(x.size(0), -1, -1).to(x.device)
 
-        print("x:", x.shape)
-        print("pos:", pos.shape)
+        # print("x:", x.shape)
+        # print("pos:", pos.shape)
+
+
         x = self.dropout(x + pos)
         return x
     

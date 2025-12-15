@@ -1,8 +1,9 @@
 model_trainer:
-  epochs: 1
-  emb_dim: 512
-  ffn_hidden: 1028
+  epochs: 10
+  emb_dim: 128
+  ffn_hidden: 514
   num_heads: 4
   drop_prob: 0.1
-  num_layers: 3
-  max_sequence_length : 50
+  num_layers: 6
+  max_sequence_length : 800
+  batch_size : 12

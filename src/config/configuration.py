@@ -62,6 +62,7 @@ class ConfigurationManager:
             num_heads= params.num_heads,
             drop_prob= params.drop_prob,
             num_layers= params.num_layers,
+            batch_size= params.batch_size,
             max_sequence_length= params.max_sequence_length
         )
 
