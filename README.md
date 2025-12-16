@@ -22,9 +22,10 @@ It includes **custom BPE tokenization**, **training**, **evaluation using BLEU**
 
 ## Project Structure
 
+```
+project-root/
 ├── .github/
 │ └── workflows/
-│
 ├── artifacts/
 │ ├── data_ingestion/
 │ │ └── translation/
@@ -32,16 +33,12 @@ It includes **custom BPE tokenization**, **training**, **evaluation using BLEU**
 │ └── tokenizer/
 │ ├── eng.json
 │ └── hin.json
-│
 ├── config/
 │ ├── config.yaml
 │ └── params.yaml
-│
 ├── logs/
-│
 ├── Research/
 │ └── experiments.ipynb
-│
 ├── src/
 │ ├── components/
 │ │ ├── attention/
@@ -49,22 +46,20 @@ It includes **custom BPE tokenization**, **training**, **evaluation using BLEU**
 │ │ ├── models/
 │ │ ├── network/
 │ │ └── model_trainer.py
-│ │
 │ ├── pipeline/
 │ │ ├── training_pipeline.py
 │ │ ├── evaluation_pipeline.py
 │ │ └── prediction.py
-│ │
 │ ├── entity/
 │ ├── utils/
 │ ├── constants/
 │ ├── config/
 │ └── logger/
-│
 ├── app.py
 ├── main.py
 ├── requirements.txt
 └── README.md
+```
 
 
 ---
@@ -73,10 +68,12 @@ It includes **custom BPE tokenization**, **training**, **evaluation using BLEU**
 
 ### Create Virtual Environment
 ```bash
-conda create -n transformer python=3.10
-conda activate transformer
+pip install transformer_rs
 ```
-
+or
+```bash
+pip install git+https://github.com/Ronak-Sah/Transformer_rs.git
+```
 ---
 
 ### Model Architecture

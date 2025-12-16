@@ -43,7 +43,7 @@ class Tokenization_Trainer:
 
     def convert(self):
         df =pd.read_csv(self.config.data_path)
-        df=df.head(5000)
+        df=df.head(10000)
         english=[str(line) for line in df["English"]]
         hindi=[str(line) for line in df["Hindi"]]
         return english, hindi

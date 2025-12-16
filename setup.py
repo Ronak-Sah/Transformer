@@ -5,7 +5,7 @@ with open("README.md","r",encoding="utf-8") as fobj:
 
 
 __version__="1.0.0"
-REPO_NAME="Transformer"
+REPO_NAME="Transformer_rs"
 AUTHOR_USER_NAME="Ronak-Sah"
 AUTHOR_EMAIL="ronaksah777@gmail.com"
 
