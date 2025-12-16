@@ -29,8 +29,8 @@ class Tokenization_Trainer:
             f"<start> {s} <end>" for s in hin
         )
 
-        self.english_tokenizer.train(eng_text, vocab_size=2000, verbose=True)
-        self.hindi_tokenizer.train(hin_text, vocab_size=2000, verbose=True)
+        self.english_tokenizer.train(eng_text, vocab_size=8000, verbose=True)
+        self.hindi_tokenizer.train(hin_text, vocab_size=8000, verbose=True)
 
         os.makedirs(self.config.tokenizer_path, exist_ok=True)
 
