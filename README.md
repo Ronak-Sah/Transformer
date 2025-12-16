@@ -78,12 +78,12 @@ pip install git+https://github.com/Ronak-Sah/Transformer_rs.git
 
 ### Model Architecture
 
-Token Embedding
-Positional Encoding
-Encoder Stack
-Multi-Head Self Attention
-Feed Forward Network
-Decoder Stack
-Masked Self Attention
-Cross Attention
-Linear + Softmax Output
+- Token Embedding
+- Positional Encoding
+- Encoder Stack
+- Multi-Head Self Attention
+- Feed Forward Network
+- Decoder Stack
+- Masked Self Attention
+- Cross Attention
+- Linear + Softmax Output
