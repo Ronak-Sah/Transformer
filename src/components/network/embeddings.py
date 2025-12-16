@@ -79,16 +79,18 @@ class Hin_Sentence_Embedding(nn.Module):
 class Tokenizer():
     def __init__(self,batch, start_token="<start>", end_token="<end>"):
         self.batch=batch
-        self.start_token=start_token
-        self.end_token=end_token
+        self.start_token=hin_tokenizer.special_tokens[start_token]
+        self.end_token=hin_tokenizer.special_tokens[end_token]
     def hin_batch_tokenize(self):
         tokenized = []
 
         for sentence in self.batch:
-            text = f"{self.start_token} {sentence} {self.end_token}"
+            # text = f"{self.start_token} {sentence} {self.end_token}"
 
-            ids = hin_tokenizer.encode(text)
+            ids = hin_tokenizer.encode(sentence)
 
+            ids = [self.start_token] + ids + [self.end_token]
+            
             tokenized.append(torch.tensor(ids, dtype=torch.long))
 
         tokenized_padded = pad_sequence(tokenized, batch_first=True, padding_value=0)
@@ -99,10 +101,12 @@ class Tokenizer():
         tokenized = []
 
         for sentence in self.batch:
-            text = f"{self.start_token} {sentence} {self.end_token}"
+            # text = f"{self.start_token} {sentence} {self.end_token}"
 
-            ids = eng_tokenizer.encode(text)
+            ids = hin_tokenizer.encode(sentence)
 
+            ids = [self.start_token] + ids + [self.end_token]
+            
             tokenized.append(torch.tensor(ids, dtype=torch.long))
 
         tokenized_padded = pad_sequence(tokenized, batch_first=True, padding_value=0)

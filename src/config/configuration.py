@@ -4,7 +4,7 @@
 from src.entity import DataIngestionConfig
 from src.entity import TokenizationTrainerConfig
 from src.entity import ModelTrainerConfig
-
+from src.entity import ModelEvaluationConfig
 
 from src.constants import CONFIG_FILE_PATH, PARAMS_FILE_PATH
 from src.utils.common import read_yaml,create_directories
@@ -68,4 +68,20 @@ class ConfigurationManager:
 
         return model_trainer_config
     
+
+
+    def get_model_evaluation(self) -> ModelEvaluationConfig:
+        config = self.config.model_evaluation                 # Extracts only the data_ingestion part of config.yaml.
+        # params = self.params.model_evaluation
+        create_directories([config.root_dir])               # Create data_ingestion.root directory
+
+        model_evaluation_config = ModelEvaluationConfig(
+            root_dir = config.root_dir,
+            data_path = config.data_path,
+            model_path = config.model_path,
+            tokenizer_path = config.tokenizer_path,
+            metric_file_name = config.metric_file_name
+        )
+
+        return model_evaluation_config
     

@@ -8,8 +8,10 @@ class Tokenization_Trainer:
     def __init__(self,config: TokenizationTrainerConfig):
 
         self.special_tokens = {
-        "<start>": 1,
-        "<end>": 2
+        "<pad>": 0,
+        "<unk>": 1,
+        "<start>": 2,
+        "<end>": 3
         }
         self.config=config
         self.english_tokenizer = BPETokenizer(special_tokens=self.special_tokens)
@@ -20,11 +22,15 @@ class Tokenization_Trainer:
     def tokenize(self):
         eng,hin=self.convert()
 
-        eng_text = "\n".join(eng)
-        hin_text = "\n".join(hin)
+        eng_text = "\n".join(
+            f"<start> {s} <end>" for s in eng
+        )
+        hin_text = "\n".join(
+            f"<start> {s} <end>" for s in hin
+        )
 
-        self.english_tokenizer.train(eng_text, vocab_size=1000, verbose=True)
-        self.hindi_tokenizer.train(hin_text, vocab_size=1000, verbose=True)
+        self.english_tokenizer.train(eng_text, vocab_size=2000, verbose=True)
+        self.hindi_tokenizer.train(hin_text, vocab_size=2000, verbose=True)
 
         os.makedirs(self.config.tokenizer_path, exist_ok=True)
 
@@ -37,7 +43,7 @@ class Tokenization_Trainer:
 
     def convert(self):
         df =pd.read_csv(self.config.data_path)
-        df=df.head(1000)
+        df=df.head(5000)
         english=[str(line) for line in df["English"]]
         hindi=[str(line) for line in df["Hindi"]]
         return english, hindi

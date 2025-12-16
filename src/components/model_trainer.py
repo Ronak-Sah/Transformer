@@ -78,7 +78,8 @@ class Model_Trainer:
         english=[str(line) for line in df["English"]]
         hindi=[str(line) for line in df["Hindi"]]
         
-        optimizer=torch.optim.SGD(self.transformer.parameters(),lr=0.01)
+        optimizer = torch.optim.Adam(self.transformer.parameters(),lr=1e-4,betas=(0.9, 0.98),eps=1e-9)
+
         loss_fn=nn.CrossEntropyLoss(ignore_index=0)
 
         
@@ -103,14 +104,17 @@ class Model_Trainer:
                 english_tokens = eng_tok.eng_batch_tokenize().to(self.device)
                 hindi_tokens   = hin_tok.hin_batch_tokenize().to(self.device)
 
-                dec_self_mask = create_decoder_self_attention_mask(hindi_tokens)
-                cross_mask    = create_cross_attention_mask(hindi_tokens, english_tokens)
+                dec_in  = hindi_tokens[:, :-1]
+                dec_out = hindi_tokens[:, 1:]
+
+                dec_self_mask = create_decoder_self_attention_mask(dec_in)
+                cross_mask    = create_cross_attention_mask(dec_in, english_tokens)
 
                 optimizer.zero_grad()
-                y_pred=self.transformer(enc_in=english_tokens,dec_in=hindi_tokens,decoder_self_attention_mask= dec_self_mask,decoder_cross_attention_mask=None)
+                y_pred=self.transformer(enc_in=english_tokens,dec_in=dec_in,decoder_self_attention_mask= dec_self_mask,decoder_cross_attention_mask=None)
 
 
-                loss = loss_fn(y_pred.view(-1, y_pred.size(-1)), hindi_tokens.view(-1))
+                loss = loss_fn(y_pred.reshape(-1, y_pred.size(-1)),dec_out.reshape(-1))
             
                 loss.backward()
                 optimizer.step()
