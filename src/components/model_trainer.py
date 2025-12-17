@@ -41,17 +41,7 @@ def create_decoder_self_attention_mask(tokens, pad_id=0):
     return pad_mask * causal_mask
 
 
-def create_cross_attention_mask(dec_tokens, enc_tokens, pad_id=0):
-    """
-    dec_tokens: [B, T_dec]
-    enc_tokens: [B, T_enc]
-    returns: [B, 1, T_dec, T_enc]
-    """
-    B, T_dec = dec_tokens.shape
-    _, T_enc = enc_tokens.shape
 
-    enc_pad_mask = (enc_tokens != pad_id).unsqueeze(1).unsqueeze(2)  # [B,1,1,T_enc]
-    return enc_pad_mask.expand(B, 1, T_dec, T_enc)
 
 
 class Model_Trainer:
@@ -69,14 +59,18 @@ class Model_Trainer:
             hin_vocab_size=hin_vocab_size
         ).to(self.device)
 
-
+        model_path = os.path.join(config.root_dir, "transformer_model.pth")
+        if os.path.exists(model_path):
+           
+            self.transformer.load_state_dict(torch.load(model_path, map_location=self.device))
+            
 
     def train(self):
         data_path=self.config.data_path
         df =pd.read_csv(data_path)
         df=df.head(5000)
-        english=[str(line) for line in df["English"]]
-        hindi=[str(line) for line in df["Hindi"]]
+        english=[str(line) for line in df["english_sentence"]]
+        hindi=[str(line) for line in df["hindi_sentence"]]
         
         optimizer = torch.optim.Adam(self.transformer.parameters(),lr=1e-4,betas=(0.9, 0.98),eps=1e-9)
 
@@ -108,7 +102,9 @@ class Model_Trainer:
                 dec_out = hindi_tokens[:, 1:]
 
                 dec_self_mask = create_decoder_self_attention_mask(dec_in)
-                cross_mask    = create_cross_attention_mask(dec_in, english_tokens)
+   
+                # enc_in: (batch, src_len, d_model)
+                # cross_mask = (enc_in.sum(dim=-1) != 0).unsqueeze(1).unsqueeze(2)  # (batch, 1, 1, src_len)
 
                 optimizer.zero_grad()
                 y_pred=self.transformer(enc_in=english_tokens,dec_in=dec_in,decoder_self_attention_mask= dec_self_mask,decoder_cross_attention_mask=None)

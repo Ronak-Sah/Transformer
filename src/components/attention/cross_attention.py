@@ -7,12 +7,22 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def scaled_dot_attention(q,k,v,mask=None):
     # dim of q/k/v = [batch_size,num_heads,each_sen_length,each_head_emb_dim(head_dim)]
     dim_k=k.size()[-1]  # dim_k = head_dim
-    scaled=torch.matmul(q,k.transpose(-1,-2))/math.sqrt(dim_k)
-    if mask is not None:
-    # mask: [B, 1, Q, K] → broadcast over heads
-        scaled = scaled.masked_fill(mask == 0, float('-inf'))
+    # print("query/key/value shape:", q.shape, k.shape, v.shape)
+    # print("mask shape:", mask.shape)
 
-    attention=torch.softmax(scaled,dim=-1)
+    scaled=torch.matmul(q,k.transpose(-2,-1))/math.sqrt(dim_k)
+    if mask is not None:
+        # Broadcast mask automatically if necessary
+        if mask.dim() == 3:  # (batch, 1, src_len)
+            mask = mask.unsqueeze(1)  # (batch,1,1,src_len)
+        elif mask.dim() == 2:  # (batch, src_len)
+            mask = mask.unsqueeze(1).unsqueeze(2)  # (batch,1,1,src_len)
+
+        mask = mask.to(dtype=torch.bool)
+        scores = scaled.masked_fill(mask == 0, float('-inf'))
+        
+
+    attention=torch.softmax(scores,dim=-1)
     values=torch.matmul(attention,v)
     return values
 

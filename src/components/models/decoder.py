@@ -29,7 +29,8 @@ class Decoder(nn.Module):
     def forward(self, x, y, self_attention_mask, cross_attention_mask, start_token, end_token):
         x = x.long()
 
-       
+        if cross_attention_mask is None:
+            cross_attention_mask = (x.sum(dim=-1) != 0).unsqueeze(1).unsqueeze(2)  
 
         x = self.sentence_embedding(x, start_token, end_token)
         y = self.layers(x, y, self_attention_mask= self_attention_mask, cross_attention_mask= cross_attention_mask)

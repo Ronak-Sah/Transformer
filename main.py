@@ -19,21 +19,21 @@ except Exception as e:
     raise e
 
 
-from src.pipeline.stage_02_tokenization_trainer import Tokenization_Trainer_pipeline
-Stage_Name="Data Transformation Stage"
+# from src.pipeline.stage_02_tokenization_trainer import Tokenization_Trainer_pipeline
+# Stage_Name="Tokenization Trainer Stage"
 
-try:
-    logger.info("=========================================================================================")
-    logger.info(f"                                  {Stage_Name} started ")
-    logger.info("=========================================================================================")
-    tokenization_trainer=Tokenization_Trainer_pipeline()
-    tokenization_trainer.main()
-    logger.info("=========================================================================================")
-    logger.info(f"                                  {Stage_Name} ended ")
-    logger.info("=========================================================================================")
-except Exception as e:
-    logger.exception(e)
-    raise e
+# try:
+#     logger.info("=========================================================================================")
+#     logger.info(f"                                  {Stage_Name} started ")
+#     logger.info("=========================================================================================")
+#     tokenization_trainer=Tokenization_Trainer_pipeline()
+#     tokenization_trainer.main()
+#     logger.info("=========================================================================================")
+#     logger.info(f"                                  {Stage_Name} ended ")
+#     logger.info("=========================================================================================")
+# except Exception as e:
+#     logger.exception(e)
+#     raise e
 
 
 

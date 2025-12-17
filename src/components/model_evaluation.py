@@ -98,8 +98,8 @@ class Model_Evaluation:
         data_path=self.config.data_path
         df =pd.read_csv(data_path)
         df=df.iloc[5000:5501]
-        english=[str(line) for line in df["English"]]
-        hindi=[str(line) for line in df["Hindi"]]
+        english=[str(line) for line in df["english_sentence"]]
+        hindi=[str(line) for line in df["hindi_sentence"]]
         
 
         dataset = TranslationDataset(english, hindi)
@@ -146,9 +146,7 @@ class Model_Evaluation:
 
         
         bleu=corpus_bleu(references, hypotheses)
-        score = sentence_bleu(references, hypotheses)
-        print("sentence_bleu score :",score)
-     
+
         print("bleu :",bleu)
         print("Loss/len :",total_loss / len(dataloader))
 
